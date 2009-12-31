@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using MongoDB.Types;
-using System.Text.RegularExpressions;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using MongoDB.Types;
 
 namespace MongoDB.Driver
 {

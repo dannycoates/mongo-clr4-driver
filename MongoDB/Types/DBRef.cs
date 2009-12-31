@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MongoDB.Types
+﻿namespace MongoDB.Types
 {
   public sealed class DBRef
   {

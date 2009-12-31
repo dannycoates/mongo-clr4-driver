@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics.Contracts;
-using System.Threading;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Net;
-using System.Security.Cryptography;
-using MongoDB.Driver;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using MongoDB.Driver;
 
 namespace MongoDB.Types
 {

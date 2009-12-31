@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace MongoDB.GridFS
+﻿namespace MongoDB.GridFS
 {
   public static class GridFSExtensions
   {
@@ -46,6 +40,5 @@ namespace MongoDB.GridFS
     {
       return db.GetCollection("fs");
     }
-
   }
 }

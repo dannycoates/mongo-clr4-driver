@@ -1,12 +1,9 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Dynamic;
+using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Types;
-using System.Collections;
-using System.Diagnostics;
 
 namespace MongoDB
 {
