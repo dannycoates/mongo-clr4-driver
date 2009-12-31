@@ -1,0 +1,7 @@
+h1. .Net 4 Driver for MongoDB
+
+This is an experimental driver for MongoDB targeting .Net 4 (Beta 2)
+
+For a .Net 2.0 compatible driver please see "mongodb-csharp":http://github.com/samus/mongodb-csharp
+
+For more info see the "wiki":http://wiki.github.com/dannycoates/mongo-clr4-driver
