@@ -20,6 +20,10 @@ namespace MongoDB
       Desc = -1
     }
 
+    public Mongo()
+      :this("localhost", 27017)
+    { }
+
     public Mongo(string host, int port)
     {
       _host = host;
