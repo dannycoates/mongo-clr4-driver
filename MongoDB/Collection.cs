@@ -67,7 +67,7 @@ namespace MongoDB
 
     #region CRUD
 
-    public ObjectId Insert(IDictionary<string, object> obj, bool safe = false)
+    public object Insert(IDictionary<string, object> obj, bool safe = false)
     {
       Contract.Requires(obj != null);
       if (!"_id".Equals(obj.Keys.FirstOrDefault()))
@@ -75,7 +75,7 @@ namespace MongoDB
         obj = new Doc(obj);
       }
       Database.Connection.Say(msg => msg.WriteInsert(FullName, new IDictionary<string, object>[] { obj }), safe);
-      return obj["_id"] as ObjectId;
+      return obj["_id"];
     }
 
     public void BulkInsert(params Doc[] docs)
@@ -97,21 +97,17 @@ namespace MongoDB
       Database.Connection.Say(msg => msg.WriteUpdate(FullName, spec, doc, options), safe);
     }
 
-    public ObjectId Save(IDictionary<string, object> obj, bool safe = false)
+    public object Save(IDictionary<string, object> obj, bool safe = false)
     {
       if (!obj.ContainsKey("_id"))
       {
         return Insert(obj, safe);
       }
-      if (!(obj["_id"] is ObjectId))
-      {
-        throw new MongoException("Invalid ObjectId");
-      }
       Update(new Doc { { "_id", obj["_id"] } }, obj, true, false, safe);
-      return obj["_id"] as ObjectId;
+      return obj["_id"];
     }
 
-    public void Remove(ObjectId id, bool safe = false)
+    public void Remove(object id, bool safe = false)
     {
       Remove(new Doc { { "_id", id } }, safe);
     }
