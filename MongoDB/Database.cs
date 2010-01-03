@@ -11,6 +11,7 @@ namespace MongoDB
   public class Database : DynamicObject, IDisposable
   {
     private readonly string _name;
+    private readonly Mongo _mongo;
     private readonly Connection _connection;
     private readonly ConcurrentDictionary<string, Collection> _collections =
       new ConcurrentDictionary<string, Collection>();
@@ -18,10 +19,11 @@ namespace MongoDB
     public string Name { get { return _name; } }
     internal Connection Connection { get { return _connection; } }
 
-    internal Database(string name, string host, int port)
+    internal Database(string name, Mongo m)
     {
       _name = name;
-      _connection = new Connection(host, port);
+      _mongo = m;
+      _connection = new Connection(m.Host, m.Port);
       Connection.Open();
     }
 
@@ -43,6 +45,8 @@ namespace MongoDB
       Dispose(true);
       GC.SuppressFinalize(this);
     }
+
+    public Database Admin { get { return _mongo.GetDB("admin"); } }
 
     public override bool TryGetMember(GetMemberBinder binder, out object result)
     {

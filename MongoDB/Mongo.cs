@@ -35,6 +35,9 @@ namespace MongoDB
       Dispose(false);
     }
 
+    public int Port { get { return _port; } }
+    public string Host { get { return _host; } }
+
     public override bool TryGetMember(GetMemberBinder binder, out object result)
     {
       result = GetDB(binder.Name);
@@ -57,7 +60,7 @@ namespace MongoDB
     public Database GetDB(string name)
     {
       Contract.Requires(!string.IsNullOrWhiteSpace(name));
-      return _databases.GetOrAdd(name, x => new Database(x, _host, _port));
+      return _databases.GetOrAdd(name, x => new Database(x, this));
     }
 
     private Doc AdminCommand(string cmd)

@@ -16,12 +16,6 @@ namespace MongoDB
     public Database Database { get; private set; }
     public string FullName { get; private set; }
 
-    /* valid options are:
- * size - initial size (bytes), also max if capped
- * capped - true if capped
- * max - max object count if capped (optional)
- */
-
     /// <summary>
     /// Create a new Collection object. If <paramref name="options"/> are included,
     /// sends a command to the database, otherwise the reference is 'lazy'
@@ -36,9 +30,7 @@ namespace MongoDB
     /// </param>
     public Collection(string name, Database db, IDictionary<string, object> options = null)
     {
-      Contract.Requires(!string.IsNullOrWhiteSpace(name));
-      Contract.Requires(!name.First().Equals('.'));
-      Contract.Requires(!name.Last().Equals('.'));
+      Contract.Requires(NameOk(name));
       Contract.Requires(db != null);
       Name = name;
       Database = db;
@@ -63,10 +55,32 @@ namespace MongoDB
       Database.ExecuteCommand(cmd);
     }
 
+    [Pure]
+    private bool NameOk(string name)
+    {
+      return
+        !string.IsNullOrWhiteSpace(name)
+        && !name.First().Equals('.')
+        && !name.Last().Equals('.')
+        && !name.Contains("..")
+        && (!name.Contains('$') || name.StartsWith("$cmd") || name.StartsWith("oplog.$main"));
+    }
+
     public override bool TryGetMember(GetMemberBinder binder, out object result)
     {
       result = Database.GetCollection(string.Format("{0}.{1}", Name, binder.Name));
       return true;
+    }
+
+    public void Rename(string name)
+    {
+      Contract.Requires(NameOk(name));
+      Contract.Requires(!name.Contains('$'));
+      var newFull = string.Format("{0}.{1}", Database.Name, name);
+      var cmd = new Command("renameCollection", FullName) { { "to",  newFull } };
+      Database.Admin.ExecuteCommand(cmd);
+      Name = name;
+      FullName = newFull;
     }
 
     /// <summary>

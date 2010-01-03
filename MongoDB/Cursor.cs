@@ -103,11 +103,10 @@ namespace MongoDB
       return this;
     }
 
-    [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
     public Explain Explain()
     {
-      var c = new Cursor(_query, _fields, _collection) { _explain = true, _limit = 1 };
-      return new Explain(c.First());
+      using(var c = new Cursor(_query, _fields, _collection) { _explain = true, _limit = 1 })
+        return new Explain(c.First());
     }
 
     private IDictionary<string, object> FullQuery()
