@@ -15,13 +15,52 @@ namespace MongoDB
     public string Name { get; private set; }
     public Database Database { get; private set; }
     public string FullName { get; private set; }
-    
-    public Collection(string name, Database db, Doc options = null)
+
+    /* valid options are:
+ * size - initial size (bytes), also max if capped
+ * capped - true if capped
+ * max - max object count if capped (optional)
+ */
+
+    /// <summary>
+    /// Create a new Collection object. If <paramref name="options"/> are included,
+    /// sends a command to the database, otherwise the reference is 'lazy'
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="db"></param>
+    /// <param name="options">
+    /// valid options are:
+    /// size - initial size (bytes), also max if capped
+    /// capped - true if capped
+    /// max - max object count if capped (optional)
+    /// </param>
+    public Collection(string name, Database db, IDictionary<string, object> options = null)
     {
+      Contract.Requires(!string.IsNullOrWhiteSpace(name));
+      Contract.Requires(!name.First().Equals('.'));
+      Contract.Requires(!name.Last().Equals('.'));
+      Contract.Requires(db != null);
       Name = name;
       Database = db;
       FullName = db.Name + "." + name;
-      //TODO: handle options
+      if (options != null)
+      {
+        Create(options);
+      }
+    }
+
+    private void Create(IDictionary<string, object> options)
+    {
+      if (options.ContainsKey("size"))
+      {
+        options["size"] = Convert.ToDouble(options["size"]);
+      }
+      var cmd = new Command("create", Name);
+      foreach (var item in options)
+      {
+        cmd[item.Key] = item.Value;
+      }
+      Database.ExecuteCommand(cmd);
     }
 
     public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -78,7 +117,7 @@ namespace MongoDB
       return obj["_id"];
     }
 
-    public void BulkInsert(params Doc[] docs)
+    public void BulkInsert(params IDictionary<string, object>[] docs)
     {
       Contract.Requires(docs.All(x => x.ContainsKey("_id")));
       Database.Connection.Say(msg => msg.WriteInsert(FullName, docs));

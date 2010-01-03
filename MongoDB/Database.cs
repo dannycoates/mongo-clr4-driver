@@ -82,13 +82,8 @@ namespace MongoDB
     //  }
     //}
 
-    public Collection CreateCollection(string name, Doc options = null)
+    public Collection CreateCollection(string name, IDictionary<string, object> options = null)
     {
-      /* valid options are:
-       * size - initial size (bytes), also max if capped
-       * capped - true if capped
-       * max - max object count if capped (optional)
-       */
       return new Collection(name, this, options);
     }
 
