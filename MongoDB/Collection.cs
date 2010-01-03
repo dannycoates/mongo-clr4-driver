@@ -107,11 +107,6 @@ namespace MongoDB
       return obj["_id"];
     }
 
-    public void Remove(object id, bool safe = false)
-    {
-      Remove(new Doc { { "_id", id } }, safe);
-    }
-
     public void Remove(IDictionary<string, object> spec, bool safe = false)
     {
       Database.Connection.Say(msg => msg.WriteDelete(FullName, spec), safe);
