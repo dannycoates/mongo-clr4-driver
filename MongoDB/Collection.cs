@@ -12,9 +12,13 @@ namespace MongoDB
 {
   public sealed class Collection : DynamicObject
   {
-    public string Name { get; private set; }
-    public Database Database { get; private set; }
-    public string FullName { get; private set; }
+    private readonly string _name;
+    private readonly Database _db;
+    private readonly string _fullName;
+
+    public string Name { get { return _name; } }
+    public Database Database { get { return _db; } }
+    public string FullName { get { return _fullName; } }
 
     /// <summary>
     /// Create a new Collection object. If <paramref name="options"/> are included,
@@ -32,9 +36,9 @@ namespace MongoDB
     {
       Contract.Requires(NameOk(name));
       Contract.Requires(db != null);
-      Name = name;
-      Database = db;
-      FullName = db.Name + "." + name;
+      _name = name;
+      _db = db;
+      _fullName = db.Name + "." + name;
       if (options != null)
       {
         Create(options);
@@ -56,7 +60,7 @@ namespace MongoDB
     }
 
     [Pure]
-    private bool NameOk(string name)
+    public static bool NameOk(string name)
     {
       return
         !string.IsNullOrWhiteSpace(name)
@@ -70,17 +74,6 @@ namespace MongoDB
     {
       result = Database.GetCollection(string.Format("{0}.{1}", Name, binder.Name));
       return true;
-    }
-
-    public void Rename(string name)
-    {
-      Contract.Requires(NameOk(name));
-      Contract.Requires(!name.Contains('$'));
-      var newFull = string.Format("{0}.{1}", Database.Name, name);
-      var cmd = new Command("renameCollection", FullName) { { "to",  newFull } };
-      Database.Admin.ExecuteCommand(cmd);
-      Name = name;
-      FullName = newFull;
     }
 
     /// <summary>
@@ -201,10 +194,16 @@ namespace MongoDB
       return Find(obj, 1).FirstOrDefault();
     }
 
-    //public Doc MapReduce(MapReduce mr)
-    //{
-    //  return Database.ExecuteCommand(mr.ToDoc(Name));
-    //}
+    public Doc MapReduce(MapReduce mr)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Doc Group()
+    {
+      throw new NotImplementedException();
+    }
+
     #endregion
 
     #region Indexes

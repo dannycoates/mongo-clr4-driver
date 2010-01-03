@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Dynamic;
+using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Types;
 
@@ -21,6 +22,9 @@ namespace MongoDB
 
     internal Database(string name, Mongo m)
     {
+      Contract.Requires(!string.IsNullOrWhiteSpace(name));
+      Contract.Requires(!name.Any(x => @" /\$.".Contains(x)));
+      Contract.Requires(m != null);
       _name = name;
       _mongo = m;
       _connection = new Connection(m.Host, m.Port);
@@ -66,6 +70,15 @@ namespace MongoDB
       return list;
     }
 
+    public void RenameCollection(string oldName, string newName)
+    {
+      Contract.Requires(Collection.NameOk(newName));
+      Contract.Requires(!newName.Contains('$'));
+      var cmd = new Command("renameCollection", string.Format("{0}.{1}", Name, oldName))
+        { { "to", string.Format("{0}.{1}", Name, newName) } };
+      Admin.ExecuteCommand(cmd);
+    }
+
     public bool Authenticate(string username, string password)
     {
       return Connection.Authenticate(username, password, Name);
@@ -99,6 +112,7 @@ namespace MongoDB
 
     public Doc ExecuteCommand(Command cmd)
     {
+      Contract.Requires(cmd != null);
       return GetCollection("$cmd").FindOne(cmd);
     }
 
