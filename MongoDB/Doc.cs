@@ -9,15 +9,16 @@ namespace MongoDB
 {
   public class Doc : DynamicObject, IDictionary<string, object>
   {
-    protected readonly IDictionary<string, object> _properties =
-      new Dictionary<string, object>();
+    protected readonly IDictionary<string, object> _properties;
 
     public Doc()
     {
+      _properties = new Dictionary<string, object>();
     }
 
     public Doc(IDictionary<string, object> obj)
     {
+      _properties = new Dictionary<string, object>(obj.Count + 1);
       _properties["_id"] = ObjectId.Create();
       foreach (var pair in obj)
       {

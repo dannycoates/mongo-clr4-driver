@@ -81,5 +81,24 @@ namespace MongoDB.Types
     }
 
     public byte[] GetBytes() { return _bytes; }
+
+    public override bool Equals(object obj)
+    {
+      var x = obj as ObjectId;
+      if (x == null) return false;
+      bool eq = true;
+      for (int i = 0; i < 12; i++)
+      {
+        eq = eq && _bytes[i] == x._bytes[i];
+      }
+      return eq;
+    }
+
+    public override int GetHashCode()
+    {
+      return BitConverter.ToInt32(_bytes, 0) 
+        ^ BitConverter.ToInt32(_bytes, 4) 
+        ^ BitConverter.ToInt32(_bytes, 8);
+    }
   }
 }

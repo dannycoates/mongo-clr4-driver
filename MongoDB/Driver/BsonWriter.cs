@@ -143,7 +143,7 @@ namespace MongoDB.Driver
           Write((int)o);
           break;
         case BsonType.TIMESTAMP:
-          Write((long)o);
+          Write(((TimeStamp)o).Value);
           break;
         case BsonType.NUMBER_LONG:
           Write((long)o);

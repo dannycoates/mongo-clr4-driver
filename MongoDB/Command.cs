@@ -7,6 +7,7 @@ namespace MongoDB
     private readonly KeyValuePair<string, object> _command;
 
     public Command(string command, object param)
+      :base()
     {
       _command = new KeyValuePair<string, object>(command, param);
     }

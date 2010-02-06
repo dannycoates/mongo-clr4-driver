@@ -2,3 +2,5 @@
 *.vcproj.*.user
 MongoDB/bin/*
 MongoDB/obj/*
+TestMongoDB/bin/*
+TestMongoDB/obj/*

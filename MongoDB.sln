@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDB", "MongoDB\MongoDB.csproj", "{84D01A07-7B43-4A5E-85A4-BB1D8BCF509B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMongoDB", "TestMongoDB\TestMongoDB.csproj", "{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAFB6341-D23D-41C7-B454-FFC1ECA5625C}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		MongoDB.vsmdi = MongoDB.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MongoDB.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -23,6 +35,16 @@ Global
 		{84D01A07-7B43-4A5E-85A4-BB1D8BCF509B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{84D01A07-7B43-4A5E-85A4-BB1D8BCF509B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{84D01A07-7B43-4A5E-85A4-BB1D8BCF509B}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6CB335B9-C469-4FB5-8AF7-1C1CE8EDF467}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
